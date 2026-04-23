@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#D97706"/>
+  <rect x="56" y="56" width="400" height="400" rx="72" fill="#B45309"/>
+  <text x="256" y="200" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="120" font-weight="700" fill="#FEF3C7" text-anchor="middle" dominant-baseline="middle">LS</text>
+  <text x="256" y="330" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="52" font-weight="500" fill="#FCD34D" text-anchor="middle" dominant-baseline="middle">Life, Sorted</text>
+</svg>
