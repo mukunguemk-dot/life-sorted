@@ -1,5 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Home, Heart, Dumbbell, PenLine, Star, Check, Plus, Mic, Square, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCRLPG_gue9BDhiVkAFY9cI4LbzvVPg_U0",
+    authDomain: "life-sorted-1556b.firebaseapp.com",
+    projectId: "life-sorted-1556b",
+    storageBucket: "life-sorted-1556b.firebasestorage.app",
+    messagingSenderId: "436233606302",
+    appId: "1:436233606302:web:d45b48a50a7fd453b2178f",
+    measurementId: "G-DY3V2MFHLS"
+};
 
 // ─────────────────────── SAMPLE DATA ───────────────────────
 const COLORS = [
