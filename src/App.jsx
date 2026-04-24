@@ -10,7 +10,7 @@ const FIREBASE_CONFIG = {
     measurementId: "G-DY3V2MFHLS"
 };
 
-// ─────────────────────── SAMPLE DATA ───────────────────────
+// âââââââââââââââââââââââ SAMPLE DATA âââââââââââââââââââââââ
 const COLORS = [
   { bg: "#FEF3C7", text: "#92400E" },
   { bg: "#EDE9FE", text: "#5B21B6" },
@@ -21,7 +21,7 @@ const COLORS = [
 
 const INIT_FRIENDS = [
   { id: 1, name: "Marcus", colorIdx: 0, lastContact: 21, cadence: 14, birthday: "2026-05-08", notes: "Ask about new job", plans: "Glastonbury?" },
-  { id: 2, name: "Priya", colorIdx: 1, lastContact: 1, cadence: 7, birthday: "1990-08-23", notes: "Podcast partner ✨", plans: "Record ep5 this week" },
+  { id: 2, name: "Priya", colorIdx: 1, lastContact: 1, cadence: 7, birthday: "1990-08-23", notes: "Podcast partner â¨", plans: "Record ep5 this week" },
   { id: 3, name: "Jamie", colorIdx: 2, lastContact: 38, cadence: 21, birthday: "1991-12-14", notes: "Haven't spoken in a while", plans: null },
   { id: 4, name: "Chen", colorIdx: 3, lastContact: 8, cadence: 14, birthday: "1988-07-02", notes: "Recommended Dark Matter", plans: "Film night" },
   { id: 5, name: "Aisha", colorIdx: 4, lastContact: 5, cadence: 21, birthday: "1993-03-17", notes: "Starting her MBA", plans: null },
@@ -30,7 +30,7 @@ const INIT_FRIENDS = [
 const INIT_WORKOUTS = [
   { id: 1, type: "gym", date: "21/04", duration: 60, notes: "Chest & back" },
   { id: 2, type: "run", date: "19/04", duration: 35, notes: "5.2km, felt strong" },
-  { id: 3, type: "gym", date: "17/04", duration: 55, notes: "Leg day 🦵" },
+  { id: 3, type: "gym", date: "17/04", duration: 55, notes: "Leg day ð¦µ" },
   { id: 4, type: "run", date: "15/04", duration: 40, notes: "6km easy pace" },
 ];
 
@@ -57,22 +57,22 @@ const INIT_PODCAST = [
 ];
 
 const INIT_JOURNAL = [
-  { id: 1, date: "22 Apr 2026", mood: "🔥", transcript: "Feeling really motivated today. Got a solid writing session in before work, nearly a thousand words. Starting to feel like the novel might actually get finished. Also need to reach out to Jamie — it's been way too long and I keep putting it off.", words: 46 },
-  { id: 2, date: "18 Apr 2026", mood: "😊", transcript: "Good day overall. The run this morning cleared my head. I've been thinking about what the podcast could become — I think Priya and I need to be more intentional about the direction. There's something there about creativity and fear that keeps coming up.", words: 44 },
+  { id: 1, date: "22 Apr 2026", mood: "ð¥", transcript: "Feeling really motivated today. Got a solid writing session in before work, nearly a thousand words. Starting to feel like the novel might actually get finished. Also need to reach out to Jamie â it's been way too long and I keep putting it off.", words: 46 },
+  { id: 2, date: "18 Apr 2026", mood: "ð", transcript: "Good day overall. The run this morning cleared my head. I've been thinking about what the podcast could become â I think Priya and I need to be more intentional about the direction. There's something there about creativity and fear that keeps coming up.", words: 44 },
 ];
 
 const INIT_FUN = [
-  { id: 1, title: "See a live jazz set", icon: "🎷", done: false },
-  { id: 2, title: "Try that Ethiopian place in Brixton", icon: "🍽️", done: false },
-  { id: 3, title: "Weekend trip to Edinburgh", icon: "✈️", done: false },
-  { id: 4, title: "Catch a comedy show", icon: "😂", done: false },
-  { id: 5, title: "Morning run in a new park", icon: "🏃", done: false },
-  { id: 6, title: "Dune Part 2", icon: "🎬", done: true },
+  { id: 1, title: "See a live jazz set", icon: "ð·", done: false },
+  { id: 2, title: "Try that Ethiopian place in Brixton", icon: "ð½ï¸", done: false },
+  { id: 3, title: "Weekend trip to Edinburgh", icon: "âï¸", done: false },
+  { id: 4, title: "Catch a comedy show", icon: "ð", done: false },
+  { id: 5, title: "Morning run in a new park", icon: "ð", done: false },
+  { id: 6, title: "Dune Part 2", icon: "ð¬", done: true },
 ];
 
-const MOODS = ["😊", "🔥", "😐", "😔", "😤", "🙏"];
+const MOODS = ["ð", "ð¥", "ð", "ð", "ð¤", "ð"];
 
-// ─────────────────────── STYLES ───────────────────────
+// âââââââââââââââââââââââ STYLES âââââââââââââââââââââââ
 const C = {
   amber: "#D97706", amberLight: "#FEF3C7", amberDark: "#92400E",
   bg: "#FAFAF8", white: "#FFFFFF", border: "#F0EDEA",
@@ -93,7 +93,7 @@ const mkBtn = (variant = "primary", extra = {}) => {
 
 const mkInput = () => ({ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1.5px solid ${C.border}`, fontSize: 14, outline: "none", boxSizing: "border-box", background: "#fff", color: C.text, fontFamily: "inherit" });
 
-// ─────────────────────── SHARED ───────────────────────
+// âââââââââââââââââââââââ SHARED âââââââââââââââââââââââ
 function Avatar({ name, colorIdx, size = 44 }) {
   const c = COLORS[colorIdx % COLORS.length];
   return <div style={{ width: size, height: size, borderRadius: "50%", background: c.bg, color: c.text, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.33, fontWeight: 700, flexShrink: 0 }}>{name.slice(0, 2).toUpperCase()}</div>;
@@ -139,7 +139,7 @@ function InnerTabs({ tabs, active, onChange }) {
   );
 }
 
-// ─────────────────────── DASHBOARD ───────────────────────
+// âââââââââââââââââââââââ DASHBOARD âââââââââââââââââââââââ
 function Dashboard({ friends, workouts, writingSessions, journalEntries, setTab }) {
   const overdue = friends.filter(f => f.lastContact > f.cadence);
   const totalWords = writingSessions.reduce((a, s) => a + s.words, 0);
@@ -153,7 +153,7 @@ function Dashboard({ friends, workouts, writingSessions, journalEntries, setTab 
     <>
       <div style={{ padding: "20px 20px 12px", borderBottom: `1px solid ${C.border}` }}>
         <p style={{ fontSize: 12, color: C.faint, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", margin: "0 0 4px" }}>Thursday, 23 April</p>
-        <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>Your week 👋</h1>
+        <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>Your week ð</h1>
       </div>
       <div style={{ padding: "16px 20px" }}>
         {overdue.length > 0 && (
@@ -173,7 +173,7 @@ function Dashboard({ friends, workouts, writingSessions, journalEntries, setTab 
         )}
         {soonBirthday && (
           <div style={{ background: C.amberLight, border: `1px solid #FCD34D`, borderRadius: 14, padding: "12px 16px", marginBottom: 20 }}>
-            <p style={{ fontSize: 14, color: C.amberDark, margin: 0 }}>🎂 <strong>{soonBirthday.name}'s</strong> birthday — {new Date(soonBirthday.birthday).toLocaleDateString("en-GB", { day: "numeric", month: "long" })}</p>
+            <p style={{ fontSize: 14, color: C.amberDark, margin: 0 }}>ð <strong>{soonBirthday.name}'s</strong> birthday â {new Date(soonBirthday.birthday).toLocaleDateString("en-GB", { day: "numeric", month: "long" })}</p>
           </div>
         )}
         <SectionLabel text="This week" />
@@ -185,7 +185,7 @@ function Dashboard({ friends, workouts, writingSessions, journalEntries, setTab 
         </div>
         <SectionLabel text="Quick actions" />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-          {[{ label: "Log a workout", tab: "fitness", icon: "🏋️" }, { label: "Voice journal", tab: "creative", icon: "🎙️" }, { label: "Check in with someone", tab: "friends", icon: "💬" }, { label: "Add something fun", tab: "fun", icon: "🎉" }].map(a => (
+          {[{ label: "Log a workout", tab: "fitness", icon: "ðï¸" }, { label: "Voice journal", tab: "creative", icon: "ðï¸" }, { label: "Check in with someone", tab: "friends", icon: "ð¬" }, { label: "Add something fun", tab: "fun", icon: "ð" }].map(a => (
             <button key={a.label} onClick={() => setTab(a.tab)} style={{ ...mkCard({ margin: 0, cursor: "pointer", textAlign: "left" }) }}>
               <p style={{ fontSize: 20, margin: "0 0 6px" }}>{a.icon}</p>
               <p style={{ fontSize: 13, fontWeight: 600, margin: 0 }}>{a.label}</p>
@@ -197,7 +197,7 @@ function Dashboard({ friends, workouts, writingSessions, journalEntries, setTab 
   );
 }
 
-// ─────────────────────── FRIENDS ───────────────────────
+// âââââââââââââââââââââââ FRIENDS âââââââââââââââââââââââ
 function Friends({ friends, setFriends }) {
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
@@ -223,9 +223,9 @@ function Friends({ friends, setFriends }) {
                     <p style={{ fontWeight: 700, fontSize: 15, margin: 0 }}>{f.name}</p>
                     <Pill type={overdue ? (f.lastContact - f.cadence > 14 ? "red" : "amber") : "green"} text={overdue ? `${f.lastContact - f.cadence}d late` : "On track"} />
                   </div>
-                  <p style={{ fontSize: 13, color: C.muted, margin: "0 0 2px" }}>Last contact: {f.lastContact === 0 ? "today 🎉" : `${f.lastContact} days ago`}</p>
+                  <p style={{ fontSize: 13, color: C.muted, margin: "0 0 2px" }}>Last contact: {f.lastContact === 0 ? "today ð" : `${f.lastContact} days ago`}</p>
                   {f.notes && <p style={{ fontSize: 13, color: C.muted, margin: "2px 0", fontStyle: "italic" }}>{f.notes}</p>}
-                  {f.plans && <p style={{ fontSize: 13, color: C.amber, margin: "4px 0 0", fontWeight: 600 }}>📌 {f.plans}</p>}
+                  {f.plans && <p style={{ fontSize: 13, color: C.amber, margin: "4px 0 0", fontWeight: 600 }}>ð {f.plans}</p>}
                 </div>
               </div>
               {overdue && <button onClick={() => logContact(f.id)} style={{ ...mkBtn("primary"), width: "100%", marginTop: 12 }}><Check size={14} /> Logged a chat</button>}
@@ -249,7 +249,7 @@ function Friends({ friends, setFriends }) {
   );
 }
 
-// ─────────────────────── FITNESS ───────────────────────
+// âââââââââââââââââââââââ FITNESS âââââââââââââââââââââââ
 function Fitness({ workouts, setWorkouts, weights, setWeights }) {
   const [loggingType, setLoggingType] = useState(null);
   const [duration, setDuration] = useState("45");
@@ -259,7 +259,7 @@ function Fitness({ workouts, setWorkouts, weights, setWeights }) {
   const logWeight = () => { if (!newWeight) return; setWeights(w => [...w, { id: Date.now(), date: "Today", kg: parseFloat(newWeight) }]); setNewWeight(""); };
   const latest = weights[weights.length-1]?.kg;
   const lost = (weights[0]?.kg - latest).toFixed(1);
-  const TYPES = [{ type:"gym",icon:"🏋️",label:"Gym"},{type:"run",icon:"🏃",label:"Run"},{type:"walk",icon:"🚶",label:"Walk"},{type:"other",icon:"⚡",label:"Other"}];
+  const TYPES = [{ type:"gym",icon:"ðï¸",label:"Gym"},{type:"run",icon:"ð",label:"Run"},{type:"walk",icon:"ð¶",label:"Walk"},{type:"other",icon:"â¡",label:"Other"}];
   return (
     <>
       <PageHeader title="Fitness" sub="Track your progress" />
@@ -305,11 +305,11 @@ function Fitness({ workouts, setWorkouts, weights, setWeights }) {
         {workouts.slice(0,5).map(w => (
           <div key={w.id} style={{ ...mkCard({ marginBottom: 8 }), display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 40, height: 40, borderRadius: 12, background: w.type==="gym"?"#EFF6FF":"#ECFDF5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>
-              {w.type==="gym"?"🏋️":w.type==="run"?"🏃":"🚶"}
+              {w.type==="gym"?"ðï¸":w.type==="run"?"ð":"ð¶"}
             </div>
             <div style={{ flex: 1 }}>
               <p style={{ fontWeight: 600, fontSize: 14, margin: "0 0 2px" }}>{w.type==="gym"?"Gym":w.type==="run"?"Run":w.type==="walk"?"Walk":"Session"}</p>
-              <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>{w.duration} mins{w.notes?` · ${w.notes}`:""}</p>
+              <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>{w.duration} mins{w.notes?` Â· ${w.notes}`:""}</p>
             </div>
             <span style={{ fontSize: 12, color: C.faint }}>{w.date}</span>
           </div>
@@ -319,7 +319,7 @@ function Fitness({ workouts, setWorkouts, weights, setWeights }) {
   );
 }
 
-// ─────────────────────── JOURNAL ───────────────────────
+// âââââââââââââââââââââââ JOURNAL âââââââââââââââââââââââ
 function Journal({ entries, setEntries }) {
   const [recording, setRecording] = useState(false);
   const [transcript, setTranscript] = useState("");
@@ -352,7 +352,7 @@ function Journal({ entries, setEntries }) {
       setTranscript(t => t + fin);
       setInterim(inter);
     };
-    rec.onerror = () => { setError("Microphone access blocked — please allow mic permissions and try again."); setRecording(false); };
+    rec.onerror = () => { setError("Microphone access blocked â please allow mic permissions and try again."); setRecording(false); };
     rec.onend = () => { setRecording(false); setInterim(""); };
     rec.start();
     recRef.current = rec;
@@ -374,12 +374,12 @@ function Journal({ entries, setEntries }) {
       {/* Big mic button */}
       <div style={{ textAlign: "center", padding: "20px 0 16px" }}>
         <p style={{ fontSize: 14, color: C.muted, margin: "0 0 20px" }}>
-          {recording ? "Listening… speak naturally" : hasContent ? "Recording paused — continue or save" : "Tap to start your voice journal"}
+          {recording ? "Listeningâ¦ speak naturally" : hasContent ? "Recording paused â continue or save" : "Tap to start your voice journal"}
         </p>
         <button onClick={recording ? stopRecording : startRecording} style={{ width: 90, height: 90, borderRadius: "50%", border: "none", cursor: "pointer", background: recording ? (pulse ? "#DC2626" : "#EF4444") : C.amber, display: "inline-flex", alignItems: "center", justifyContent: "center", transition: "background 0.3s, transform 0.2s, box-shadow 0.3s", transform: recording && pulse ? "scale(1.07)" : "scale(1)", boxShadow: recording ? `0 0 0 ${pulse?"16px":"8px"} rgba(239,68,68,0.12)` : `0 0 0 0 transparent` }}>
           {recording ? <Square size={32} color="#fff" fill="#fff" /> : <Mic size={32} color="#fff" />}
         </button>
-        {recording && <p style={{ fontSize: 13, color: "#EF4444", fontWeight: 700, margin: "14px 0 0" }}>● Recording</p>}
+        {recording && <p style={{ fontSize: 13, color: "#EF4444", fontWeight: 700, margin: "14px 0 0" }}>â Recording</p>}
       </div>
 
       {error && (
@@ -394,7 +394,7 @@ function Journal({ entries, setEntries }) {
           <SectionLabel text="Transcript" />
           <textarea value={transcript + interim} onChange={e => setTranscript(e.target.value)} rows={5}
             style={{ ...mkInput(), resize: "vertical", lineHeight: 1.65 }}
-            placeholder="Your words will appear here as you speak…" />
+            placeholder="Your words will appear here as you speakâ¦" />
 
           <p style={{ fontSize: 13, fontWeight: 600, color: C.muted, margin: "12px 0 8px" }}>How are you feeling?</p>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
@@ -443,7 +443,7 @@ function Journal({ entries, setEntries }) {
   );
 }
 
-// ─────────────────────── CREATIVE ───────────────────────
+// âââââââââââââââââââââââ CREATIVE âââââââââââââââââââââââ
 function Creative({ writingSessions, setWritingSessions, podcastEps, journalEntries, setJournalEntries }) {
   const [innerTab, setInnerTab] = useState("Journal");
   const [logging, setLogging] = useState(false);
@@ -497,7 +497,7 @@ function Creative({ writingSessions, setWritingSessions, podcastEps, journalEntr
       {innerTab === "Podcast" && (
         <div style={{ padding: "16px 20px" }}>
           <div style={{ background: "#FFFBEB", border: `1px solid #FCD34D`, borderRadius: 14, padding: "12px 16px", marginBottom: 12 }}>
-            <p style={{ fontSize: 14, color: C.amberDark, margin: 0 }}>🎙 3 episodes published · Ep4 in editing · Ep5 in the works</p>
+            <p style={{ fontSize: 14, color: C.amberDark, margin: 0 }}>ð 3 episodes published Â· Ep4 in editing Â· Ep5 in the works</p>
           </div>
           {podcastEps.map(ep => (
             <div key={ep.id} style={{ ...mkCard({ marginBottom: 8 }), display: "flex", alignItems: "center", gap: 12 }}>
@@ -512,17 +512,17 @@ function Creative({ writingSessions, setWritingSessions, podcastEps, journalEntr
   );
 }
 
-// ─────────────────────── FUN ───────────────────────
+// âââââââââââââââââââââââ FUN âââââââââââââââââââââââ
 function Fun({ funList, setFunList }) {
   const [adding, setAdding] = useState(false);
   const [newItem, setNewItem] = useState("");
   const toggle = id => setFunList(list => list.map(i => i.id===id?{...i,done:!i.done}:i));
-  const addItem = () => { if (!newItem.trim()) return; setFunList(list => [...list, { id: Date.now(), title: newItem, icon: "⭐", done: false }]); setNewItem(""); setAdding(false); };
+  const addItem = () => { if (!newItem.trim()) return; setFunList(list => [...list, { id: Date.now(), title: newItem, icon: "â­", done: false }]); setNewItem(""); setAdding(false); };
   const todo = funList.filter(i => !i.done);
   const done = funList.filter(i => i.done);
   return (
     <>
-      <PageHeader title="Fun stuff" sub="Life isn't all goals — enjoy it" />
+      <PageHeader title="Fun stuff" sub="Life isn't all goals â enjoy it" />
       <div style={{ padding: "16px 20px" }}>
         {todo.map(item => (
           <div key={item.id} style={{ ...mkCard({ marginBottom: 8 }), display: "flex", alignItems: "center", gap: 12 }}>
@@ -544,7 +544,7 @@ function Fun({ funList, setFunList }) {
         )}
         {done.length > 0 && (
           <>
-            <SectionLabel text="Done ✓" />
+            <SectionLabel text="Done â" />
             {done.map(item => (
               <div key={item.id} style={{ ...mkCard({ marginBottom: 8, opacity: 0.55 }), display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#D1FAE5", border: "2px solid #10B981", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Check size={13} color="#065F46" /></div>
@@ -558,7 +558,7 @@ function Fun({ funList, setFunList }) {
   );
 }
 
-// ─────────────────────── BOTTOM NAV ───────────────────────
+// âââââââââââââââââââââââ BOTTOM NAV âââââââââââââââââââââââ
 function BottomNav({ tab, setTab }) {
   const tabs = [{ id:"home",icon:Home,label:"Home" },{ id:"friends",icon:Heart,label:"Friends" },{ id:"fitness",icon:Dumbbell,label:"Fitness" },{ id:"creative",icon:PenLine,label:"Creative" },{ id:"fun",icon:Star,label:"Fun" }];
   return (
@@ -576,9 +576,57 @@ function BottomNav({ tab, setTab }) {
   );
 }
 
-// ─────────────────────── APP ───────────────────────
+
+const GOOGLE_CLIENT_ID = "1083939197575-6qt3bmf0djgjc0vaveed0jpqolotf081.apps.googleusercontent.com";
+const NETLIFY_URL = "https://incandescent-lamington-00b18b.netlify.app";
+const REDIRECT_URI = NETLIFY_URL + "/.netlify/functions/auth";
+const OAUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
+  + "?client_id=" + GOOGLE_CLIENT_ID
+  + "&redirect_uri=" + encodeURIComponent(REDIRECT_URI)
+  + "&response_type=code"
+  + "&scope=" + encodeURIComponent("https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events")
+  + "&access_type=offline"
+  + "&prompt=consent";
+
+function GoogleAuthButton({ calToken, setCalToken }) {
+  function handleConnect() { window.location.href = OAUTH_URL; }
+  function handleDisconnect() {
+    localStorage.removeItem("ls_cal_token");
+    localStorage.removeItem("ls_cal_refresh");
+    setCalToken(null);
+  }
+  if (calToken) {
+    return (
+      <div style={{ display:"flex", alignItems:"center", gap:8, padding:"6px 12px", background:"#D1FAE5", borderRadius:8, fontSize:13, color:"#065F46" }}>
+        <span>Calendar connected</span>
+        <button onClick={handleDisconnect} style={{ background:"none", border:"none", cursor:"pointer", color:"#DC2626", fontSize:12, textDecoration:"underline" }}>Disconnect</button>
+      </div>
+    );
+  }
+  return (
+    <button onClick={handleConnect} style={{ display:"flex", alignItems:"center", gap:8, padding:"8px 14px", background:"#4285F4", color:"#fff", border:"none", borderRadius:8, fontSize:13, cursor:"pointer", fontWeight:600 }}>
+      Connect Google Calendar
+    </button>
+  );
+}
+
+// âââââââââââââââââââââââ APP âââââââââââââââââââââââ
 export default function App() {
   const [tab, setTab] = useState("home");
+  const [calToken, setCalToken] = useState(localStorage.getItem("ls_cal_token"));
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("cal_token");
+    const refresh = params.get("cal_refresh");
+    if (token) {
+      localStorage.setItem("ls_cal_token", token);
+      if (refresh) localStorage.setItem("ls_cal_refresh", refresh);
+      setCalToken(token);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
   const [friends, setFriends] = useState(INIT_FRIENDS);
   const [workouts, setWorkouts] = useState(INIT_WORKOUTS);
   const [weights, setWeights] = useState(INIT_WEIGHTS);
@@ -595,6 +643,7 @@ export default function App() {
         {tab==="creative" && <Creative writingSessions={writingSessions} setWritingSessions={setWritingSessions} podcastEps={podcastEps} journalEntries={journalEntries} setJournalEntries={setJournalEntries} />}
         {tab==="fun" && <Fun funList={funList} setFunList={setFunList} />}
       </div>
+      <GoogleAuthButton calToken={calToken} setCalToken={setCalToken} />
       <BottomNav tab={tab} setTab={setTab} />
     </div>
   );
