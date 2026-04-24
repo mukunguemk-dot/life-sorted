@@ -19,15 +19,8 @@ import React, { useState, useRef, useEffect } from "react";
 // âââââââââââââââââââââââ FIREBASE PERSISTENCE âââââââââââââââââââââââ
 // Fill in your Firebase config at console.firebase.google.com
 // Leave as null to use local state only (preview mode)
-const FIREBASE_CONFIG = {
-    apiKey: "AIzaSyCRLPG_gue9BDhiVkAFY9cI4LbzvVPg_U0",
-    authDomain: "life-sorted-1556b.firebaseapp.com",
-    projectId: "life-sorted-1556b",
-    storageBucket: "life-sorted-1556b.firebasestorage.app",
-    messagingSenderId: "436233606302",
-    appId: "1:436233606302:web:d45b48a50a7fd453b2178f",
-    measurementId: "G-DY3V2MFHLS"
-};
+const FIREBASE_CONFIG = null;
+
 // Replace with your config object, e.g.:
 // const FIREBASE_CONFIG = {
 //   apiKey: "AIza...",
@@ -878,28 +871,40 @@ function MusicInlineCard({lastMusicPick,onNavigate}) {
 
 
 
-// âââââââââââââââââââââââ CALENDAR (pre-built, ready for OAuth) âââââââââââââââââââââââ
-// This component is fully built. Once Google Calendar OAuth is authorised,
-// replace CALENDAR_TOKEN with the real OAuth access token.
-const CALENDAR_TOKEN = null; // Will be set after OAuth flow completes
+// âââââââââââââââââââââââ // ─────────────────────── CALENDAR ───────────────────────
+
+// Token is set automatically when the OAuth flow completes.
+// The app catches ?cal_token= from the redirect URL, stores it in
+// localStorage, and this function reads it on every load.
+function getCalToken() {
+  try { return localStorage.getItem("ls_cal_token"); } catch { return null; }
+}
 
 function CalendarCard({onNavigate,funList,goals}) {
+  const [token,setToken]=useState(getCalToken);
   const [events,setEvents]=useState(null);
   const [loading,setLoading]=useState(false);
   const [freeDays,setFreeDays]=useState([]);
+  const [tokenError,setTokenError]=useState(false);
 
-  const fetchCalendar=async(token)=>{
-    if(!token) return;
+  const fetchCalendar=async(tkn)=>{
+    if(!tkn) return;
     setLoading(true);
+    setTokenError(false);
     try {
       const now=new Date();
       const end=new Date(now);end.setDate(end.getDate()+14);
       const url=`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${now.toISOString()}&timeMax=${end.toISOString()}&singleEvents=true&orderBy=startTime`;
-      const res=await fetch(url,{headers:{Authorization:`Bearer ${token}`}});
+      const res=await fetch(url,{headers:{Authorization:`Bearer ${tkn}`}});
+      if(res.status===401){
+        // Token expired — clear it, prompt re-auth
+        try{localStorage.removeItem("ls_cal_token");}catch{}
+        setToken(null);setTokenError(true);setLoading(false);return;
+      }
       const data=await res.json();
       const items=data.items||[];
       setEvents(items);
-      // Detect free days: days with no all-day or long events
+      // Detect free days: no all-day or timed events
       const busy=new Set(items.map(e=>(e.start?.date||e.start?.dateTime||"").slice(0,10)));
       const freeList=[];
       for(let i=0;i<14;i++){
@@ -912,22 +917,29 @@ function CalendarCard({onNavigate,funList,goals}) {
     setLoading(false);
   };
 
-  useEffect(()=>{if(CALENDAR_TOKEN)fetchCalendar(CALENDAR_TOKEN);},[]);
+  useEffect(()=>{if(token)fetchCalendar(token);},[token]);
 
-  // Cross-reference free days with fun list
+  // Cross-reference free days with fun list — prefer items with no date yet
   const suggestedFun=freeDays.length>0
-    ? funList.filter(f=>!f.done).slice(0,3)
+    ? funList.filter(f=>!f.done&&!f.date).slice(0,3)
     : [];
 
-  if(!CALENDAR_TOKEN) {
+  // Upcoming fun that lands on free days
+  const funOnFreeDays=funList.filter(f=>!f.done&&f.date&&freeDays.includes(f.date));
+
+  if(!token) {
     return (
       <div style={{...mkCard({background:"#F0FDF4",border:`1px solid #6EE7B7`})}}>
-        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
-          <span style={{fontSize:18}}>ð</span>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+          <span style={{fontSize:18}}>📅</span>
           <p style={{fontWeight:700,fontSize:15,margin:0,color:C.green}}>Calendar</p>
-          <span style={{background:C.amberLight,color:C.amberDark,borderRadius:6,padding:"2px 7px",fontSize:11,fontWeight:700}}>Setting upâ¦</span>
         </div>
-        <p style={{fontSize:13,color:C.green,margin:0,opacity:0.8}}>OAuth setup in progress â this card will show your free days and suggest fun plans once connected.</p>
+        <p style={{fontSize:13,color:C.green,margin:"0 0 12px",opacity:0.8}}>
+          {tokenError?"Your calendar session expired — reconnect to continue.":"Connect Google Calendar to see free days and get smart fun suggestions."}
+        </p>
+        <a href="/.netlify/functions/auth" style={{...mkBtn("primary",{textDecoration:"none",fontSize:13,padding:"9px 16px"}),background:C.green}}>
+          📅 {tokenError?"Reconnect Calendar":"Connect Google Calendar"}
+        </a>
       </div>
     );
   }
@@ -936,32 +948,47 @@ function CalendarCard({onNavigate,funList,goals}) {
     <div style={mkCard()}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
         <div style={{display:"flex",alignItems:"center",gap:8}}>
-          <span style={{fontSize:18}}>ð</span>
+          <span style={{fontSize:18}}>📅</span>
           <p style={{fontWeight:700,fontSize:15,margin:0}}>Calendar</p>
+          <span style={{background:C.greenLight,color:C.green,borderRadius:6,padding:"2px 7px",fontSize:11,fontWeight:700}}>Connected</span>
         </div>
-        <button onClick={()=>onNavigate("fun")} style={{background:"none",border:"none",cursor:"pointer",color:C.faint,display:"flex"}}><ArrowRight size={16}/></button>
+        <button onClick={()=>fetchCalendar(token)} style={{background:"none",border:"none",cursor:"pointer",color:C.faint,fontSize:12}}>🔄</button>
       </div>
-      {loading&&<p style={{fontSize:13,color:C.muted,margin:0}}>Loading calendarâ¦</p>}
-      {freeDays.length>0&&(
+      {loading&&<p style={{fontSize:13,color:C.muted,margin:0}}>Syncing calendar…</p>}
+      {!loading&&freeDays.length>0&&(
         <>
-          <p style={{fontSize:12,color:C.green,fontWeight:700,margin:"0 0 8px"}}>â {freeDays.length} free days in the next 2 weeks</p>
-          {suggestedFun.map(f=>(
-            <div key={f.id} style={{display:"flex",alignItems:"center",gap:8,padding:"4px 0"}}>
-              <span style={{fontSize:16}}>{f.icon}</span>
-              <p style={{fontSize:13,margin:0,flex:1}}>{f.title}</p>
-              <span style={{fontSize:11,color:C.amber,fontWeight:600}}>Plan it â</span>
+          <p style={{fontSize:13,color:C.green,fontWeight:700,margin:"0 0 10px"}}>
+            ✅ {freeDays.length} free day{freeDays.length>1?"s":""} in the next 2 weeks
+          </p>
+          {funOnFreeDays.length>0&&(
+            <div style={{background:C.amberLight,borderRadius:10,padding:"8px 12px",marginBottom:8}}>
+              <p style={{fontSize:12,color:C.amberDark,fontWeight:700,margin:"0 0 4px"}}>📌 Planned on a free day</p>
+              {funOnFreeDays.map(f=>(
+                <p key={f.id} style={{fontSize:13,margin:"2px 0",color:C.amberDark}}>{f.icon} {f.title} · {new Date(f.date).toLocaleDateString("en-GB",{day:"numeric",month:"short"})}</p>
+              ))}
             </div>
-          ))}
+          )}
+          {suggestedFun.length>0&&(
+            <>
+              <p style={{fontSize:12,color:C.muted,margin:"0 0 6px",fontWeight:600}}>PLAN ON A FREE DAY</p>
+              {suggestedFun.map(f=>(
+                <div key={f.id} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 0",borderBottom:`1px solid ${C.border}`}}>
+                  <span style={{fontSize:16}}>{f.icon}</span>
+                  <p style={{fontSize:13,margin:0,flex:1}}>{f.title}</p>
+                  <button onClick={()=>onNavigate("fun")} style={{fontSize:11,color:C.amber,fontWeight:600,background:"none",border:"none",cursor:"pointer"}}>Plan →</button>
+                </div>
+              ))}
+            </>
+          )}
         </>
       )}
-      {events&&events.length>0&&freeDays.length===0&&(
-        <p style={{fontSize:13,color:C.muted,margin:0}}>Busy fortnight! No free days detected in the next 14 days.</p>
+      {!loading&&events&&events.length>0&&freeDays.length===0&&(
+        <p style={{fontSize:13,color:C.muted,margin:0}}>Busy fortnight — no completely free days in the next 14 days.</p>
       )}
     </div>
   );
 }
 
-// âââââââââââââââââââââââ MORNING CHECK-IN âââââââââââââââââââââââ
 function MorningCheckIn({checkIns,setCheckIns}) {
   const today=new Date().toISOString().slice(0,10);
   const existing=checkIns[today];
@@ -2409,45 +2436,25 @@ export default function App() {
   const [onboarded,setOnboarded]=useState(()=>{
   const [calToken, setCalToken] = useState(localStorage.getItem("ls_cal_token"));
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("cal_token");
-    const refresh = params.get("cal_refresh");
-    if (token) {
-      localStorage.setItem("ls_cal_token", token);
-      if (refresh) localStorage.setItem("ls_cal_refresh", refresh);
-      setCalToken(token);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
-
-    try{return localStorage.getItem("ls_onboarded")==="1";}catch{return false;}
-  });
-  const [screen,setScreen]=useState("home");
-  const [drawerOpen,setDrawerOpen]=useState(false);
-  const [showWeeklyReview,setShowWeeklyReview]=useState(false);
-  const [friends,setFriends]=useStore("friends",INIT_FRIENDS);
-  const [workouts,setWorkouts]=useStore("workouts",INIT_WORKOUTS);
-  const [weights,setWeights]=useStore("weights",INIT_WEIGHTS);
-  const [writingSessions,setWritingSessions]=useStore("writing",INIT_WRITING);
-  const [podcastEps]=useState(INIT_PODCAST);
-  const [journalEntries,setJournalEntries]=useStore("journal",INIT_JOURNAL);
-  const [funList,setFunList]=useStore("fun",INIT_FUN);
-  const [gymLocation,setGymLocation]=useState(INIT_GYM);
-  const [weeklyReviews,setWeeklyReviews]=useStore("reviews",[]);
-  const [habits,setHabits]=useStore("habits",INIT_HABITS);
-  const [lastMusicPick,setLastMusicPick]=useState(null);
-  const [astroSessions,setAstroSessions]=useStore("astro_sessions",[]);
-  const [goals,setGoals]=useStore("goals",INIT_GOALS);
-  const [checkIns,setCheckIns]=useStore("checkins",{});
-  const [financeData,setFinanceData]=useState(null); // populated by Finance section on first open
-  const [astroMilestones,setAstroMilestones]=useStore("astro_milestones",ASTROPOLIS_MILESTONES);
-  const [astroComponents,setAstroComponents]=useStore("astro_components",ASTROPOLIS_COMPONENTS);
-  const [notifStatus,setNotifStatus]=useState(typeof Notification!=="undefined"?Notification.permission:"denied");
-
-  const {canInstall,install}=useInstallPrompt();
-
-  useEffect(()=>{async function load(){try{const lp=await window.storage.get("lastPick");if(lp?.value)setLastMusicPick(JSON.parse(lp.value));}catch{}}load();},[]);
+  useEffect(()=>{
+    try {
+      const params=new URLSearchParams(window.location.search);
+      const calToken=params.get("cal_token");
+      const calError=params.get("cal_error");
+      if(calToken){
+        localStorage.setItem("ls_cal_token",calToken);
+        // Clean the URL so the token isn't visible
+        window.history.replaceState({},"",window.location.pathname);
+        // Force CalendarCard to re-read — it uses getCalToken() on mount
+        // A quick page reload is the safest approach after token storage
+        window.location.reload();
+      }
+      if(calError){
+        window.history.replaceState({},"",window.location.pathname);
+        console.warn("Calendar auth error:",calError);
+      }
+    } catch{}
+  },[]);
   useEffect(()=>{if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(()=>{});}},[]);
 
   const requestNotifs=async()=>{if(typeof Notification==="undefined")return;const result=await Notification.requestPermission();setNotifStatus(result);};
